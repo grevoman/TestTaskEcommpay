@@ -1,60 +1,39 @@
-<p align="center">
-    <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
-    </a>
-    <h1 align="center">Yii 2 Advanced Project Template</h1>
-    <br>
-</p>
 
-Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-developing complex Web applications with multiple tiers.
+1. Скопировать `.env.dist` в `.env` и заполнить параметры
+2. В `console/config/main-local.php` заполнить поля для подключения к БД и к Google Drive
+3. Запуск `make up`, завершение `make down`,
+4. Инициализация проекта - `make project-init`
+4. Установить vendor - `make composer-install`
+4. Применение миграций - `make migrate`
+5. Командная строка - `make shell-php`
+6. Создание партнёра из командной строки - `php yii partner/partner/create PartnerName`
+7. Запуск импорта из командной строки - `php yii partnerAnalytics/import/index [-d=Дата импорта]`
+8. Каталоги сохранённых файлов - `storage/archive` и `storage/invalid`
+9. Лог импорта - `console/runtime/logs/partnerAnalyticsImport`
 
-The template includes three tiers: front end, back end, and console, each of which
-is a separate Yii application.
-
-The template is designed to work in a team development environment. It supports
-deploying the application in different environments.
-
-Documentation is at [docs/guide/README.md](docs/guide/README.md).
-
-[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![build](https://github.com/yiisoft/yii2-app-advanced/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-app-advanced/actions?query=workflow%3Abuild)
-
-DIRECTORY STRUCTURE
--------------------
+Задача:
 
 ```
-common
-    config/              contains shared configurations
-    mail/                contains view files for e-mails
-    models/              contains model classes used in both backend and frontend
-    tests/               contains tests for common classes    
-console
-    config/              contains console configurations
-    controllers/         contains console controllers (commands)
-    migrations/          contains database migrations
-    models/              contains console-specific model classes
-    runtime/             contains files generated during runtime
-backend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains backend configurations
-    controllers/         contains Web controller classes
-    models/              contains backend-specific model classes
-    runtime/             contains files generated during runtime
-    tests/               contains tests for backend application    
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-frontend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains frontend configurations
-    controllers/         contains Web controller classes
-    models/              contains frontend-specific model classes
-    runtime/             contains files generated during runtime
-    tests/               contains tests for frontend application
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-    widgets/             contains frontend widgets
-vendor/                  contains dependent 3rd-party packages
-environments/            contains environment-based overrides
+Ваши партнеры скидывают аналитику по продажам в GoogleDrive 1 партнер - 1 файл в день
+
+название файла partnerName_10.09.2020.*
+
+partnerName - название партнера (может содержать кириллицу, латиницу, символы - ",',')
+10.09.2020 - дата за которую предоставлен отчет
+Формат файла - гугл таблицы или CSV
+
+Структура файла:
+Дата и время заказы | Имя клиента | Наименование товара\услуги |  количество | Стоимость за единицу | Тип доставки (курьер/самовывоз) | Город доставки | стоимость доставки курьером | Итого стоимость |
+
+(!) Количество ваших партнеров не ограничено
+
+Необходимо написать CLI Приложение на базе Yii2 которое подключается к GoogleDrive, выкачивает ранее не загруженные файлы и помещает их в БД. Обработанные файлы помещаются в директорию archive которая лежит рядом с директорией upload.
+
+Если структура файла нарушена, его необходимо помещать в директорию invalid.
+
+Уточнения к реализации:
+- CLI Команду реализовать как подключаемый модуль
+- Для работы с GoogleDrive мондно использовать специализированный пакет
+- Все чувствительные данные типа паролей, логинов и т.д. должны быть вынесены в конфиг, в код не зашивать
 ```
+
