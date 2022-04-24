@@ -1,59 +1,59 @@
 version: '3'
 
 volumes:
-    mysql_data:
-        driver: local
+  mysql_data:
+    driver: local
 
 services:
 
-    frontend:
-        build: frontend
-        environment:
-            NETWORK_GATEWAY: ${NETWORK_GATEWAY}
-        networks:
-            self:
-                ipv4_address: ${NETWORK_FRONTEND}
-        volumes:
-            # Re-use local composer cache via host-volume
-            - ~/.composer-docker/cache:/root/.composer/cache:delegated
-            # Mount source-code for development
-            - ./:/app
+  frontend:
+    build: frontend
+    environment:
+      NETWORK_GATEWAY: ${NETWORK_GATEWAY}
+    networks:
+      self:
+        ipv4_address: ${NETWORK_FRONTEND}
+    volumes:
+      # Re-use local composer cache via host-volume
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/app
 
   backend:
-      build: backend
-      environment:
-          NETWORK_GATEWAY: ${NETWORK_GATEWAY}
-      volumes:
-          # Re-use local composer cache via host-volume
-          - ~/.composer-docker/cache:/root/.composer/cache:delegated
-          # Mount source-code for development
-          - ./:/app
-      networks:
-          self:
-              ipv4_address: ${NETWORK_BACKEND}
+    build: backend
+    environment:
+      NETWORK_GATEWAY: ${NETWORK_GATEWAY}
+    volumes:
+      # Re-use local composer cache via host-volume
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/app
+    networks:
+      self:
+        ipv4_address: ${NETWORK_BACKEND}
   mysql:
-      image: mysql:5.7
-      command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
-      environment:
-          - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-          - MYSQL_DATABASE=${MYSQL_DATABASE}
-          - MYSQL_USER=${MYSQL_USER}
-          - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      volumes:
-          - 'mysql_data:/var/lib/mysql'
-      networks:
-          self:
-              ipv4_address: ${NETWORK_MYSQL}
-    #pgsql:
-    #  image: postgres:9.5
-    #  environment:
-    #    - POSTGRES_DB=yii2advanced
-    #    - POSTGRES_USER=yii2advanced
-    #    - POSTGRES_PASSWORD=secret
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - 'mysql_data:/var/lib/mysql'
+    networks:
+      self:
+        ipv4_address: ${NETWORK_MYSQL}
+  #pgsql:
+  #  image: postgres:9.5
+  #  environment:
+  #    - POSTGRES_DB=yii2advanced
+  #    - POSTGRES_USER=yii2advanced
+  #    - POSTGRES_PASSWORD=secret
 
 networks:
-    self:
-        driver: bridge
-        ipam:
-            config:
-                -   subnet: ${NETWORK_SUBNET}
+  self:
+    driver: bridge
+    ipam:
+      config:
+        -   subnet: ${NETWORK_SUBNET}

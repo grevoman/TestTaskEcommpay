@@ -1,8 +1,8 @@
 
 1. Скопировать `.env.dist` в `.env` и заполнить параметры
-2. В `console/config/main-local.php` заполнить поля для подключения к БД и к Google Drive
 3. Запуск `make up`, завершение `make down`,
 4. Инициализация проекта - `make project-init`
+2. В `console/config/main-local.php` заполнить поля для подключения к БД и к Google Drive
 4. Установить vendor - `make composer-install`
 4. Применение миграций - `make migrate`
 5. Командная строка - `make shell-php`
