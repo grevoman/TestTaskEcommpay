@@ -1,6 +1,6 @@
 
 1. Скопировать `.env.dist` в `.env` и заполнить параметры
-3. Запуск `make up`, завершение `make down`,
+3. Запуск `make up`, завершение `make down` (в первый раз запуск mysql займёт несколько минут),
 4. Инициализация проекта - `make project-init`
 2. В `console/config/main-local.php` заполнить поля для подключения к БД и к Google Drive
 4. Установить vendor - `make composer-install`
